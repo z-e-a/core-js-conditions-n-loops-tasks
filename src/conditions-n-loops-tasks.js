@@ -323,8 +323,52 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const directions = [
+    { r: 0, c: 1 },
+    { r: 1, c: 0 },
+    { r: 0, c: -1 },
+    { r: -1, c: 0 },
+  ];
+
+  const array = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    array[i] = new Array(size);
+    for (let j = 0; j < size; j += 1) {
+      array[i][j] = 0;
+    }
+  }
+
+  let counter = 1;
+  let currDir = 0;
+  const currPos = { r: 0, c: 0 };
+  let roundCntr = 0;
+
+  while (roundCntr < size / 2) {
+    if (array[currPos.r][currPos.c] === 0) {
+      array[currPos.r][currPos.c] = counter;
+    }
+
+    if (
+      currPos.r + directions[currDir].r < 0 ||
+      currPos.r + directions[currDir].r > size - 1 ||
+      currPos.c + directions[currDir].c < 0 ||
+      currPos.c + directions[currDir].c > size - 1 ||
+      array[currPos.r + directions[currDir].r][
+        currPos.c + directions[currDir].c
+      ] !== 0
+    ) {
+      currDir += 1;
+      if (currDir >= directions.length) {
+        currDir = 0;
+        roundCntr += 1;
+      }
+    }
+    currPos.r += directions[currDir].r;
+    currPos.c += directions[currDir].c;
+    counter += 1;
+  }
+  return array;
 }
 
 /**
