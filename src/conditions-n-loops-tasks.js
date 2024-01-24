@@ -467,21 +467,30 @@ function shuffleChar(str, iterations) {
   for (let i = 0; i < str.length; i += 1) {
     inputArray[i] = str[i];
   }
+  const results = [];
+  results[0] = str;
   const bufferArray = new Array(str.length);
-  for (let i = 0; i < iterations; i += 1) {
+  let step = 1;
+  while (step <= iterations) {
     for (let j = 0; j < Math.floor(str.length / 2); j += 1) {
       bufferArray[j] = inputArray[j * 2];
       bufferArray[j + Math.floor(str.length / 2)] = inputArray[j * 2 + 1];
     }
+    let isEquals = true;
     for (let k = 0; k < str.length; k += 1) {
       inputArray[k] = bufferArray[k];
+      if (bufferArray[k] !== str[k]) isEquals = false;
     }
+    if (isEquals) break;
+
+    results[step] = '';
+    for (let i = 0; i < str.length; i += 1) {
+      results[step] += bufferArray[i];
+    }
+
+    step += 1;
   }
-  let resultStr = '';
-  for (let i = 0; i < str.length; i += 1) {
-    resultStr += inputArray[i];
-  }
-  return resultStr;
+  return results[iterations % step];
 }
 
 /**
